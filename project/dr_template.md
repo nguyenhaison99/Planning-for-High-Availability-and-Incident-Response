@@ -19,23 +19,40 @@ Identify your zones here
 | SQL Cluster (Secondary)          | Secondary Database Cluster|            | 2      | Replicated to DR in different zones        |
 
 ### Descriptions
-More detailed descriptions of each asset identified above:
+More details about each asset:
 
-- **EC2 Instances (VMs):** These instances host the application and are running in an auto-scaling group across multiple availability zones. They serve as the primary compute resources.
+- **EC2 Instances:** These are the main app servers. We have 3 of them, and they're copied to Region 2 for backup.
 
-- **EKS Clusters:** These Kubernetes clusters manage containerized applications and services. They are distributed across multiple availability zones for high availability.
+- **EKS Clusters:** These manage apps in containers. We have 2 of them, also copied to Region 2 for backup.
 
-- **VPC with Multi-AZ IP Addresses:** The VPC is set up with IP addresses spanning multiple availability zones to ensure network redundancy and availability.
+- **VPC (Multi-AZ IPs):** Networking setup with IPs in multiple zones for redundancy; duplicated in Region 2.
 
-- **Application Load Balancer (ALB):** ALBs distribute incoming application traffic across multiple EC2 instances for load balancing and failover support.
+- **ALB (Load Balancer):** Distributes traffic to EC2 instances; copied to Region 2 for backup.
 
-- **SQL Cluster (Primary):** The primary SQL cluster hosts the main database. It is set up with two instance nodes in different availability zones for redundancy and failover support.
+- **SQL Cluster (Primary):** Our main database with 2 nodes for redundancy, replicated to Region 2.
 
-- **SQL Cluster (Secondary):** The secondary SQL cluster acts as a replica of the primary cluster. It also has two instance nodes in different availability zones for failover.
+- **SQL Cluster (Secondary):** A replica of the main database, also replicated to Region 2.
 
 ## DR Plan
 ### Pre-Steps:
-List steps you would perform to setup the infrastructure in the other region. It doesn't have to be super detailed, but high-level should suffice.
+Steps to prepare in Region 2:
+
+1. Set up similar AWS resources in Region 2.
+2. Create VPC with IPs in Region 2.
+3. Configure EKS clusters in Region 2.
+4. Deploy EC2 instances and link to Region 2's setup.
+5. Set up ALB in Region 2 for traffic distribution.
+6. Configure SQL clusters in Region 2 and synchronize data.
+7. Establish connections between VPCs in both regions.
+
+
 
 ## Steps:
-You won't actually perform these steps, but write out what you would do to "fail-over" your application and database cluster to the other region. Think about all the pieces that were setup and how you would use those in the other region
+To switch to Region 2:
+1. Direct traffic to Region 2's ALB via DNS changes.
+2. Adjust EKS clusters in Region 2 for increased traffic.
+3. Deploy EC2 instances in Region 2 within the same group.
+4. Promote Region 2's secondary SQL cluster as primary.
+5. Redirect app traffic to the new primary SQL cluster.
+6. Monitor and tweak Region 2's resources for performance.
+7. Keep data synchronized between primary and secondary SQL clusters in both regions.
