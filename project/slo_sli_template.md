@@ -1,8 +1,6 @@
-# API Service
-
-| Category     | SLI | SLO                                                                                                         |
-|--------------|-----|-------------------------------------------------------------------------------------------------------------|
-| Availability |     | 99%                                                                                                         |
-| Latency      |     | 90% of requests below 100ms                                                                                 |
-| Error Budget |     | Error budget is defined at 20%. This means that 20% of the requests can fail and still be within the budget |
-| Throughput   |     | 5 RPS indicates the application is functioning                                                              |
+| Category     | SLI                                                          | SLO                                                                                                         |
+|--------------|--------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| Availability | Percentage of successful requests (2xx)                      | 99%                                                                                                         |
+| Latency      | 90th percentile response time < 100ms                       | 90% below 100ms                                                                                             |
+| Error Budget | Percentage of failed requests (non-2xx)                    | 20% error budget                                                                                            |
+| Throughput   | Requests per second (RPS)                                   | 5 RPS                                                                                                       |
